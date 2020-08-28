@@ -1,5 +1,4 @@
-﻿module OnlineInformationalCards.Tests
-open Expecto
+﻿open Expecto
 
 [<EntryPoint>]
 let main argv =
