@@ -1,4 +1,4 @@
-module OnlineInformationalCards.Program
+module Program
 
 open Falco
 

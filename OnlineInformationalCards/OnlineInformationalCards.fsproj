@@ -5,9 +5,15 @@
   <ItemGroup>
     <Compile Include="Common.fs" />
     <Compile Include="Server.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="AppErrors.fs" />
+    <Compile Include="FileReader.fs" />
+    <Compile Include="Parsers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Falco" Version="2.0.2" />
+    <PackageReference Include="Fleece.NewtonsoftJson" Version="0.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>

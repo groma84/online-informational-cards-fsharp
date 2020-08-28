@@ -1,4 +1,4 @@
-module OnlineInformationalCards.Server
+module Server
 
 open System
 open Falco

@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module OnlineInformationalCards.Common
+module Common
 
 [<Struct>]
 type DeveloperMode = DeveloperMode of bool
