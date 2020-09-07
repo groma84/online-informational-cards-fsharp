@@ -31,4 +31,4 @@ let tests =
               let (actual': string) =
                   wantOk actual "expected Ok but got Error"
 
-              test <@ actual' = "content2" @> ]
+              test <@ actual' = "content" @> ]
