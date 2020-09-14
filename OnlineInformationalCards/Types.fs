@@ -16,3 +16,7 @@ type DeckChildren =
 and Deck =
     { Metadata: DeckMetadata
       Children: DeckChildren option }
+
+type DeckFiles =
+    { MetadataPath: string
+      CardPaths: string list }
