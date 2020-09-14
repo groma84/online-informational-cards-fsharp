@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Expecto" Version="9.*" />
+    <PackageReference Include="Thoth.Json.Net" Version="4.1.0" />
     <PackageReference Include="Unquote" Version="5.0.0" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
