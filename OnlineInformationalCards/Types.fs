@@ -9,13 +9,9 @@ type DeckMetadata =
       Title: string
       Description: string option }
 
-type DeckChildren =
-    | Subdecks of Deck list
-    | Cards of Card list
-
-and Deck =
+type Deck =
     { Metadata: DeckMetadata
-      Children: DeckChildren option }
+      Cards: Card list }
 
 type DeckFiles =
     { MetadataPath: string
