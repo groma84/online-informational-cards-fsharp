@@ -31,3 +31,23 @@ let traverseDirectory filePath =
         else
             Error <| MetadataFileMissing deckDirectory)
     |> Seq.toList
+
+let readDeckFiles (filePaths: Result<DeckFiles, ApplicationError> list): Result<DeckStrings, ApplicationError list> list =
+    let readOneDeck (deckFiles: DeckFiles): Result<DeckStrings, ApplicationError list> =
+        let metadata = readFile deckFiles.MetadataPath
+        let cards = List.map readFile deckFiles.CardPaths
+        let (cardOks, cardErrors) = Result.partition cards
+
+        match (metadata, List.isEmpty cardErrors) with
+        | Ok md, true ->
+            Ok
+                { MetadataJson = md
+                  CardsJson = cardOks }
+        | Ok _, false -> Error cardErrors
+        | Error err, _ -> Error <| err :: cardErrors
+
+    let mapInputErrorsToListOfErrorsAndParseDeck =
+        Result.mapError (fun err -> [ err ])
+        >> (Result.bind readOneDeck)
+
+    List.map mapInputErrorsToListOfErrorsAndParseDeck filePaths

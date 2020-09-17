@@ -16,3 +16,7 @@ type Deck =
 type DeckFiles =
     { MetadataPath: string
       CardPaths: string list }
+
+type DeckStrings =
+    { MetadataJson: string
+      CardsJson: string list }
