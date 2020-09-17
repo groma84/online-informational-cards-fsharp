@@ -6,7 +6,7 @@ open Parsers
 open AppErrors
 open Thoth.Json.Net
 
-let readDecks allDeckStrings: List<Result<Deck, ApplicationError list>> =
+let readDecks allDeckStrings: Result<Deck, ApplicationError list> list =
     let parseOneDeck (deckStrings: DeckStrings): Result<Deck, ApplicationError list> =
         let parse (decoder: Decoder<'a>) (json: string): Result<'a, ApplicationError> =
             json
@@ -33,3 +33,18 @@ let readDecks allDeckStrings: List<Result<Deck, ApplicationError list>> =
         >> (Result.bind parseOneDeck)
 
     List.map mapInputErrorsToListOfErrorsAndParseDeck allDeckStrings
+
+let decksToDictionary (decks: Result<Deck, ApplicationError list> list)
+                      : Result<Map<System.Guid, Deck>, ApplicationError list> =
+    let (decksOk, decksError) = Result.partition decks
+
+    if (List.isEmpty decksError) then
+        let deckToKeyValuePair deck = (deck.Metadata.Id, deck)
+
+        decksOk
+        |> List.map deckToKeyValuePair
+        |> Map.ofList
+        |> Ok
+
+    else
+        (List.collect id decksError) |> Error
