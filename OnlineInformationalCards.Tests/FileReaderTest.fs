@@ -6,6 +6,7 @@ open FileReader
 open AppErrors
 open Swensen.Unquote
 open FSharpPlus
+open Types
 
 [<Tests>]
 let tests =
@@ -52,15 +53,42 @@ let traverseDirectoryTests =
           <| fun () ->
               let actual = traverseDirectory "data" |> List.head
               test
-                  <@ (wantOk actual "Expected Ok").CardPaths
+                  <@ (wantOk actual "Expected Ok").CardsPaths
                      |> List.length = 2 @>
 
           testCase "filepaths contain correct filename"
           <| fun () ->
               let actual = traverseDirectory "data" |> List.head
               test
-                  <@ match (wantOk actual "Expected Ok").CardPaths with
+                  <@ match (wantOk actual "Expected Ok").CardsPaths with
                      | f :: s :: _ ->
                          String.isSubString "01.json" f
                          && String.isSubString "02.json" s
                      | _ -> true = false @> ]
+
+[<Tests>]
+let readDeckFilesTests =
+    testList
+        "readDeckFiles"
+        [ testCase "read deck"
+          <| fun () ->
+              let metadataPath = "data/testdeck1/deck.json"
+              let cardPath1 = "data/testdeck1/cards/01.json"
+              let cardPath2 = "data/testdeck1/cards/02.json"
+
+              let input =
+                  Ok
+                      { MetadataPath = metadataPath
+                        CardsPaths = [ cardPath1; cardPath2 ] }
+
+              let actual = readDeckFiles [ input ]
+              test <@ List.length actual = 1 @>
+
+              let actualValue = wantOk (List.head actual) "Expected Ok"
+
+              test
+                  <@ actualValue =
+                      { MetadataJson = System.IO.File.ReadAllText metadataPath
+                        CardsJson =
+                            [ System.IO.File.ReadAllText cardPath1
+                              System.IO.File.ReadAllText cardPath2 ] } @> ]

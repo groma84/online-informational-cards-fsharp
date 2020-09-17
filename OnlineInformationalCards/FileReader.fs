@@ -27,7 +27,7 @@ let traverseDirectory filePath =
 
             Ok
             <| { MetadataPath = metadataFile
-                 CardPaths = cardPaths }
+                 CardsPaths = cardPaths }
         else
             Error <| MetadataFileMissing deckDirectory)
     |> Seq.toList
@@ -35,7 +35,7 @@ let traverseDirectory filePath =
 let readDeckFiles (filePaths: Result<DeckFiles, ApplicationError> list): Result<DeckStrings, ApplicationError list> list =
     let readOneDeck (deckFiles: DeckFiles): Result<DeckStrings, ApplicationError list> =
         let metadata = readFile deckFiles.MetadataPath
-        let cards = List.map readFile deckFiles.CardPaths
+        let cards = List.map readFile deckFiles.CardsPaths
         let (cardOks, cardErrors) = Result.partition cards
 
         match (metadata, List.isEmpty cardErrors) with

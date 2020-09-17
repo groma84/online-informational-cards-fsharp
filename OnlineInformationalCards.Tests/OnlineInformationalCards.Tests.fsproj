@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Include="FileReaderTest.fs" />
     <Compile Include="ParsersTest.fs" />
+    <Compile Include="DeckReaderTest.fs" />
     <Compile Include="Main.fs" />
     <Content Include="data\file1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
