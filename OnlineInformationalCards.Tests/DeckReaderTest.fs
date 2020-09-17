@@ -11,7 +11,7 @@ open DeckReader
 let deckReaderTest =
     testList
         "readDecks"
-        [ testCase "x"
+        [ testCase "parse a valid deck into Record"
           <| fun () ->
               let input =
                   Ok
