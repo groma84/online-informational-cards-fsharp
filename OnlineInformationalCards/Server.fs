@@ -1,6 +1,7 @@
 module Server
 
 open System
+open Types
 open Falco
 open Falco.Host
 open Microsoft.AspNetCore.Builder

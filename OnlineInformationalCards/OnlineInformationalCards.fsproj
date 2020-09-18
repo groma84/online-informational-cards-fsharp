@@ -3,13 +3,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Types.fs" />
     <Compile Include="Common.fs" />
     <Compile Include="Server.fs" />
-    <Compile Include="Types.fs" />
     <Compile Include="AppErrors.fs" />
     <Compile Include="FileReader.fs" />
     <Compile Include="Parsers.fs" />
     <Compile Include="DeckReader.fs" />
+    <Compile Include="ErrorView.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

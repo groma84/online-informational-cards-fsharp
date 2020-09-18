@@ -73,7 +73,7 @@ let deckReaderTest =
     "text": "Another fancy card text."
 }""" ]                      }
 
-                    let actual = readDecks [ input ]
+                    let actual = parseDecks [ input ]
                     test <@ List.length actual = 1 @>
 
                     let actualValue = wantOk (List.head actual) "Expected Ok"

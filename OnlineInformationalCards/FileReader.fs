@@ -10,7 +10,8 @@ let readFile filePath =
         System.IO.File.ReadAllText filePath |> Ok
     with exn -> FileReaderError exn.Message |> Error
 
-let traverseDirectory filePath =
+let traverseDirectory (deckDirectory: DeckDirectory) =
+    let (DeckDirectory filePath) = deckDirectory
     System.IO.Directory.EnumerateDirectories filePath
     |> Seq.map (fun deckDirectory ->
         let metadataFile =

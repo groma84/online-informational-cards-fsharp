@@ -37,28 +37,36 @@ let tests =
 
 [<Tests>]
 let traverseDirectoryTests =
+    let deckDirectory = DeckDirectory "data"
+
     testList
         "traverseDirectory"
         [ testCase "one deck is parsed"
           <| fun () ->
-              let actual = traverseDirectory "data"
+              let actual = traverseDirectory deckDirectory
               test <@ List.length actual = 1 @>
 
           testCase "deck has metadata file path"
           <| fun () ->
-              let actual = traverseDirectory "data" |> List.head
+              let actual =
+                  traverseDirectory deckDirectory |> List.head
+
               test <@ String.isSubString "deck.json" (wantOk actual "Expected Ok").MetadataPath @>
 
           testCase "deck has two card filepaths"
           <| fun () ->
-              let actual = traverseDirectory "data" |> List.head
+              let actual =
+                  traverseDirectory deckDirectory |> List.head
+
               test
                   <@ (wantOk actual "Expected Ok").CardsPaths
                      |> List.length = 2 @>
 
           testCase "filepaths contain correct filename"
           <| fun () ->
-              let actual = traverseDirectory "data" |> List.head
+              let actual =
+                  traverseDirectory deckDirectory |> List.head
+
               test
                   <@ match (wantOk actual "Expected Ok").CardsPaths with
                      | f :: s :: _ ->

@@ -1,21 +1,16 @@
 [<AutoOpen>]
 module Common
 
-[<Struct>]
-type DeveloperMode = DeveloperMode of bool
-
-[<Struct>]
-type PostsDirectory = PostsDirectory of string
-
 module Env =
     open System
     open System.IO
     open Falco.StringUtils
+    open Types
 
     let root = Directory.GetCurrentDirectory()
 
-    let postsDirectory =
-        Path.Combine(root, "Posts") |> PostsDirectory
+    let deckDirectory =
+        Path.Combine(root, "decks") |> DeckDirectory
 
     let tryGetEnv (name: string) =
         match Environment.GetEnvironmentVariable name with
@@ -28,3 +23,8 @@ module Env =
         | None -> true
         | Some env -> strEquals env "development"
         |> DeveloperMode
+
+    let password =
+        match tryGetEnv "PASSWORD" with
+        | None -> None
+        | Some env -> env |> Password |> Some

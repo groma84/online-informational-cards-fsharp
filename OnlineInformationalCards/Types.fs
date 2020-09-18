@@ -20,3 +20,12 @@ type DeckFiles =
 type DeckStrings =
     { MetadataJson: string
       CardsJson: string list }
+
+[<Struct>]
+type DeveloperMode = DeveloperMode of bool
+
+[<Struct>]
+type DeckDirectory = DeckDirectory of string
+
+[<Struct>]
+type Password = Password of string
