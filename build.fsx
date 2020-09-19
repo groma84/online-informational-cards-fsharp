@@ -13,8 +13,9 @@ open Fake.DotNet
 
 // Properties
 let buildDir = "./build/"
-let deployDir = "./deploy/"
-let serverDir = "./OnlineInformationalCards"
+let publishDir = "./publish/"
+let serverDir = "./OnlineInformationalCards/"
+let farmerDir = "./FarmerTemplate/"
 
 let runDotNet cmd workingDir =
     let result =
@@ -23,11 +24,25 @@ let runDotNet cmd workingDir =
     if result.ExitCode <> 0
     then failwithf "'dotnet %s' failed in %s" cmd workingDir
 
+let runDotNet5 cmd workingDir =
+    let result =
+        DotNet.exec
+            (DotNet.Options.withWorkingDirectory workingDir
+             >> DotNet.Options.withDotNetCliPath "dotnet5beta")
+            cmd
+            ""
+
+    if result.ExitCode <> 0
+    then failwithf "'dotnet %s' failed in %s" cmd workingDir
+
 // Targets
-Target.create "Clean" (fun _ -> Shell.cleanDirs [ buildDir; deployDir ])
+Target.create "Clean" (fun _ -> Shell.cleanDirs [ publishDir ])
 
 Target.create "Build" (fun _ ->
-    let projects = !! "**/*.fsproj" -- "**Tests/**.fsproj"
+    let projects =
+        !! "**/*.fsproj"
+        -- "**Tests/**.fsproj"
+        -- "**/Farmer*.fsproj"
 
     for projectFile in projects do
         DotNet.build id projectFile)
@@ -41,10 +56,23 @@ Target.create "RunTests" (fun _ ->
 
 Target.create "Watch" (fun _ -> runDotNet "watch run" serverDir)
 
+Target.create "Publish" (fun _ ->
+    DotNet.publish (fun config ->
+        { config with
+              OutputPath = Some publishDir }) serverDir)
+
+Target.create "FarmerDeploy" (fun _ -> runDotNet5 "run" farmerDir)
+
 Target.create "Default" (fun _ -> Trace.trace "Hello World from FAKE")
 
 
-"Clean" ==> "Build" ==> "RunTests" ==> "Default"
+"Watch" ==> "Default"
+
+"Clean"
+==> "Build"
+==> "RunTests"
+==> "Publish"
+==> "FarmerDeploy"
 
 
 // start build
