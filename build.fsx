@@ -61,9 +61,12 @@ Target.create "Publish" (fun _ ->
         { config with
               OutputPath = Some publishDir }) serverDir)
 
-Target.create "FarmerDeploy" (fun _ -> runDotNet5 "run" farmerDir)
+Target.create "FarmerDeploy" (fun _ -> runDotNet "run" farmerDir)
+
+Target.create "CopyWebConfig" (fun _ -> System.IO.File.Copy("azure.web.config", "./publish/web.config", true))
 
 Target.create "Default" (fun _ -> Trace.trace "Hello World from FAKE")
+
 
 
 "Watch" ==> "Default"
@@ -72,6 +75,7 @@ Target.create "Default" (fun _ -> Trace.trace "Hello World from FAKE")
 ==> "Build"
 ==> "RunTests"
 ==> "Publish"
+==> "CopyWebConfig"
 ==> "FarmerDeploy"
 
 

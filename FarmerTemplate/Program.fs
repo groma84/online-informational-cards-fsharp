@@ -5,7 +5,6 @@ let publishDir = "../publish/"
 
 let myWebApp = webApp {
     name "OnlineInformationalCards"
-    https_only
     zip_deploy publishDir
 }
 
